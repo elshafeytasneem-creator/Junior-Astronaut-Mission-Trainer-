@@ -1,0 +1,665 @@
+[
+  {
+    "typeId": "pressurized_habitat",
+    "name": "Habitat Module",
+    "kidDescription": "The crew's pressurized home. It holds the air they breathe and it is where they sleep, eat and warm up.",
+    "priority": { "v": 10, "source": "game_assumption", "note": "Shed last: it is the crew's living volume." },
+    "essential": true,
+    "passive": false,
+    "powerDrawKwh": { "v": 2.5, "source": "game_assumption", "note": "Fans, lights and cabin controls per simulated hour." },
+    "inputs": [
+      { "resource": "food", "amount": { "v": 0.125, "source": "nasa", "note": "0.75 kg food per crew member per day x 4 crew / 24 h (NASA-STD-3001 food plan)." } },
+      { "resource": "cleanWater", "amount": { "v": 0.6, "source": "nasa", "note": "3.6 L drinking + hygiene per crew member per day x 4 / 24 h." } },
+      { "resource": "cabinO2", "amount": { "v": 0.14, "source": "nasa", "note": "0.84 kg O2 per crew member per day x 4 / 24 h." } }
+    ],
+    "outputs": [
+      { "resource": "cabinCO2", "amount": { "v": 0.18, "source": "nasa", "note": "About 1.08 kg CO2 per crew member per day x 4 / 24 h." } },
+      { "resource": "wasteWater", "amount": { "v": 0.25, "source": "game_assumption", "note": "Greywater, 1.5 L per crew member per day x 4 / 24 h." } },
+      { "resource": "solidWaste", "amount": { "v": 0.1, "source": "game_assumption", "note": "0.6 kg per crew member per day x 4 / 24 h." } }
+    ],
+    "requires": [],
+    "requiresAny": [],
+    "provides": ["cabin", "crew"],
+    "allowedStates": ["ON", "OFF", "DAMAGED", "REPAIRING", "UNDER_CONSTRUCTION", "DESTROYED"],
+    "capacityGrants": [
+      { "resource": "cleanWater", "amount": { "v": 300, "source": "game_assumption", "note": "Tanks moulded into the habitat structure." } },
+      { "resource": "food", "amount": { "v": 60, "source": "game_assumption" } },
+      { "resource": "wasteWater", "amount": { "v": 40, "source": "game_assumption" } },
+      { "resource": "solidWaste", "amount": { "v": 20, "source": "game_assumption" } }
+    ],
+    "volumeM3": { "v": 80, "source": "game_assumption", "note": "Two connected 4-crew modules. Scaled up from the NASA-STD-3001 space allowance so the cabin gas buffers more than one hour of crew breathing - otherwise every loop swings wildly." },
+    "heatRemovalKwh": { "v": 0, "source": "game_assumption" },
+    "solarKwhPerFullSunHour": { "v": 0, "source": "game_assumption" },
+    "batteryCapacityKwh": { "v": 0, "source": "game_assumption" },
+    "batteryRateKwh": { "v": 0, "source": "game_assumption" },
+    "aggregation": "stack",
+    "maxInstances": { "v": 2, "source": "game_assumption" },
+    "unlockXp": { "v": 0, "source": "game_assumption" },
+    "buildCost": {
+      "money": { "v": 2500, "source": "game_assumption" },
+      "regolith": { "v": 200, "source": "game_assumption" },
+      "spareParts": { "v": 5, "source": "game_assumption" }
+    },
+    "buildHours": { "v": 12, "source": "game_assumption" },
+    "upgrades": [
+      { "level": { "v": 2, "source": "game_assumption" }, "costMoney": { "v": 1200, "source": "game_assumption" }, "costParts": { "v": 2, "source": "game_assumption" }, "hours": { "v": 6, "source": "game_assumption" } }
+    ],
+    "special": "habitat"
+  },
+  {
+    "typeId": "airlock",
+    "name": "Airlock",
+    "kidDescription": "A small door with two doors in it. Crew put on their suits here so the habitat never loses its air.",
+    "priority": { "v": 50, "source": "game_assumption" },
+    "essential": false,
+    "passive": false,
+    "powerDrawKwh": { "v": 0.5, "source": "game_assumption", "note": "Pumps that cycle the crew in and out." },
+    "inputs": [],
+    "outputs": [
+      { "resource": "regolith", "amount": { "v": 30, "source": "game_assumption", "note": "A spacewalk is also a shovel: the crew pile a berm by the airlock. Slow dirt, but it needs no rover." } }
+    ],
+    "requires": ["cabin"],
+    "requiresAny": [],
+    "provides": ["eva"],
+    "allowedStates": ["ON", "OFF", "DAMAGED", "REPAIRING", "UNDER_CONSTRUCTION", "DESTROYED"],
+    "capacityGrants": [],
+    "volumeM3": { "v": 4, "source": "game_assumption" },
+    "heatRemovalKwh": { "v": 0, "source": "game_assumption" },
+    "solarKwhPerFullSunHour": { "v": 0, "source": "game_assumption" },
+    "batteryCapacityKwh": { "v": 0, "source": "game_assumption" },
+    "batteryRateKwh": { "v": 0, "source": "game_assumption" },
+    "aggregation": "stack",
+    "maxInstances": { "v": 2, "source": "game_assumption" },
+    "unlockXp": { "v": 0, "source": "game_assumption" },
+    "buildCost": {
+      "money": { "v": 900, "source": "game_assumption" },
+      "regolith": { "v": 70, "source": "game_assumption" },
+      "spareParts": { "v": 2, "source": "game_assumption" }
+    },
+    "buildHours": { "v": 5, "source": "game_assumption" },
+    "upgrades": [],
+    "special": "airlock"
+  },
+  {
+    "typeId": "greenhouse",
+    "name": "Greenhouse",
+    "kidDescription": "Plants make food with light, water and the crew's CO2 - and they give back oxygen while they grow.",
+    "priority": { "v": 60, "source": "game_assumption" },
+    "essential": false,
+    "passive": false,
+    "powerDrawKwh": { "v": 2.5, "source": "game_assumption", "note": "Grow lamps are the biggest single power user on the base." },
+    "inputs": [
+      { "resource": "capturedCO2", "amount": { "v": 0.12, "source": "nasa", "note": "Photosynthesis stoichiometry: 44 g CO2 per mole of carbon fixed." } },
+      { "resource": "cleanWater", "amount": { "v": 0.05, "source": "nasa", "note": "18 g H2O per mole, matched to the CO2 above." } }
+    ],
+    "outputs": [
+      { "resource": "food", "amount": { "v": 0.08, "source": "nasa", "note": "About 30 g of edible biomass per mole; one module cannot feed four crew." } },
+      { "resource": "cabinO2", "amount": { "v": 0.087, "source": "nasa", "note": "32 g O2 released per mole of CO2 fixed." } }
+    ],
+    "requires": ["cabin", "power_bus"],
+    "requiresAny": [],
+    "provides": ["food_production"],
+    "allowedStates": ["ON", "OFF", "PROCESSING", "GROWING", "IDLE", "DAMAGED", "REPAIRING", "UNDER_CONSTRUCTION", "DESTROYED"],
+    "capacityGrants": [],
+    "volumeM3": { "v": 12, "source": "game_assumption" },
+    "heatRemovalKwh": { "v": 0, "source": "game_assumption" },
+    "solarKwhPerFullSunHour": { "v": 0, "source": "game_assumption" },
+    "batteryCapacityKwh": { "v": 0, "source": "game_assumption" },
+    "batteryRateKwh": { "v": 0, "source": "game_assumption" },
+    "aggregation": "stack",
+    "maxInstances": { "v": 3, "source": "game_assumption" },
+    "unlockXp": { "v": 0, "source": "game_assumption" },
+    "buildCost": {
+      "money": { "v": 1200, "source": "game_assumption" },
+      "regolith": { "v": 120, "source": "game_assumption" },
+      "spareParts": { "v": 2, "source": "game_assumption" }
+    },
+    "buildHours": { "v": 6, "source": "game_assumption" },
+    "upgrades": [
+      { "level": { "v": 2, "source": "game_assumption" }, "costMoney": { "v": 700, "source": "game_assumption" }, "costParts": { "v": 1, "source": "game_assumption" }, "hours": { "v": 4, "source": "game_assumption" } }
+    ],
+    "special": "processor",
+    "blocksWhenFull": "food"
+  },
+  {
+    "typeId": "solar_array",
+    "name": "Solar Array",
+    "kidDescription": "A field of sun panels. It only makes power while the Sun is up, so the outpost needs batteries for the long night.",
+    "priority": { "v": 90, "source": "game_assumption" },
+    "essential": false,
+    "passive": true,
+    "powerDrawKwh": { "v": 0, "source": "game_assumption" },
+    "inputs": [],
+    "outputs": [],
+    "requires": [],
+    "requiresAny": [],
+    "provides": ["power_source"],
+    "allowedStates": ["ON", "OFF", "DEPLOYED", "STOWED", "DAMAGED", "REPAIRING", "UNDER_CONSTRUCTION", "DESTROYED"],
+    "capacityGrants": [],
+    "volumeM3": { "v": 0, "source": "game_assumption" },
+    "heatRemovalKwh": { "v": 0, "source": "game_assumption" },
+    "solarKwhPerFullSunHour": { "v": 26, "source": "game_assumption", "note": "Scaled for play. Lunar sunlight is about 1361 W/m2 (NASA TSIS-1 solar irradiance)." },
+    "batteryCapacityKwh": { "v": 0, "source": "game_assumption" },
+    "batteryRateKwh": { "v": 0, "source": "game_assumption" },
+    "aggregation": "stack",
+    "maxInstances": { "v": 4, "source": "game_assumption" },
+    "unlockXp": { "v": 0, "source": "game_assumption" },
+    "buildCost": {
+      "money": { "v": 800, "source": "game_assumption" },
+      "regolith": { "v": 60, "source": "game_assumption" },
+      "spareParts": { "v": 1, "source": "game_assumption" }
+    },
+    "buildHours": { "v": 3, "source": "game_assumption" },
+    "upgrades": [
+      { "level": { "v": 2, "source": "game_assumption" }, "costMoney": { "v": 600, "source": "game_assumption" }, "costParts": { "v": 1, "source": "game_assumption" }, "hours": { "v": 2, "source": "game_assumption" } }
+    ],
+    "special": "solar"
+  },
+  {
+    "typeId": "battery_bank",
+    "name": "Battery Bank",
+    "kidDescription": "Stores the daylight so you can spend it at night. Bigger banks mean you can keep more machines running after sunset.",
+    "priority": { "v": 8, "source": "game_assumption" },
+    "essential": false,
+    "passive": true,
+    "powerDrawKwh": { "v": 0, "source": "game_assumption" },
+    "inputs": [],
+    "outputs": [],
+    "requires": [],
+    "requiresAny": [],
+    "provides": ["storage_power"],
+    "allowedStates": ["ON", "OFF", "CHARGING", "DAMAGED", "REPAIRING", "UNDER_CONSTRUCTION", "DESTROYED"],
+    "capacityGrants": [
+      { "resource": "electricalEnergy", "amount": { "v": 0, "source": "game_assumption", "note": "Storage is declared once, on batteryCapacityKwh." } }
+    ],
+    "volumeM3": { "v": 3, "source": "game_assumption" },
+    "heatRemovalKwh": { "v": 0, "source": "game_assumption" },
+    "solarKwhPerFullSunHour": { "v": 0, "source": "game_assumption" },
+    "batteryCapacityKwh": { "v": 120, "source": "game_assumption" },
+    "batteryRateKwh": { "v": 20, "source": "game_assumption", "note": "Charge and discharge ceiling per hour, so power cannot teleport." },
+    "aggregation": "stack",
+    "maxInstances": { "v": 4, "source": "game_assumption" },
+    "unlockXp": { "v": 0, "source": "game_assumption" },
+    "buildCost": {
+      "money": { "v": 900, "source": "game_assumption" },
+      "regolith": { "v": 80, "source": "game_assumption" },
+      "spareParts": { "v": 2, "source": "game_assumption" }
+    },
+    "buildHours": { "v": 4, "source": "game_assumption" },
+    "upgrades": [
+      { "level": { "v": 2, "source": "game_assumption" }, "costMoney": { "v": 650, "source": "game_assumption" }, "costParts": { "v": 1, "source": "game_assumption" }, "hours": { "v": 3, "source": "game_assumption" } }
+    ],
+    "special": "battery"
+  },
+  {
+    "typeId": "power_distribution",
+    "name": "Power Controller",
+    "kidDescription": "The switchboard. Without it the power from the panels cannot reach the machines, so everything else goes quiet.",
+    "priority": { "v": 5, "source": "game_assumption", "note": "Shed last of all: losing it loses the whole grid." },
+    "essential": true,
+    "passive": false,
+    "powerDrawKwh": { "v": 0.5, "source": "game_assumption" },
+    "inputs": [],
+    "outputs": [],
+    "requires": [],
+    "requiresAny": [],
+    "provides": ["power_bus"],
+    "allowedStates": ["ON", "OFF", "DAMAGED", "REPAIRING", "UNDER_CONSTRUCTION", "DESTROYED"],
+    "capacityGrants": [],
+    "volumeM3": { "v": 2, "source": "game_assumption" },
+    "heatRemovalKwh": { "v": 0, "source": "game_assumption" },
+    "solarKwhPerFullSunHour": { "v": 0, "source": "game_assumption" },
+    "batteryCapacityKwh": { "v": 0, "source": "game_assumption" },
+    "batteryRateKwh": { "v": 0, "source": "game_assumption" },
+    "aggregation": "stack",
+    "maxInstances": { "v": 1, "source": "game_assumption" },
+    "unlockXp": { "v": 0, "source": "game_assumption" },
+    "buildCost": {
+      "money": { "v": 600, "source": "game_assumption" },
+      "regolith": { "v": 40, "source": "game_assumption" },
+      "spareParts": { "v": 1, "source": "game_assumption" }
+    },
+    "buildHours": { "v": 2, "source": "game_assumption" },
+    "upgrades": [],
+    "special": "passive"
+  },
+  {
+    "typeId": "rover_charger",
+    "name": "Rover Charger",
+    "kidDescription": "A plug for the rover. Charging uses power you could have spent on the greenhouse, so plan the night before.",
+    "priority": { "v": 75, "source": "game_assumption" },
+    "essential": false,
+    "passive": false,
+    "powerDrawKwh": { "v": 2, "source": "game_assumption" },
+    "inputs": [],
+    "outputs": [],
+    "requires": ["power_bus"],
+    "requiresAny": [],
+    "provides": ["rover_power"],
+    "allowedStates": ["ON", "OFF", "CHARGING", "IDLE", "DAMAGED", "REPAIRING", "UNDER_CONSTRUCTION", "DESTROYED"],
+    "capacityGrants": [],
+    "volumeM3": { "v": 2, "source": "game_assumption" },
+    "heatRemovalKwh": { "v": 0, "source": "game_assumption" },
+    "solarKwhPerFullSunHour": { "v": 0, "source": "game_assumption" },
+    "batteryCapacityKwh": { "v": 0, "source": "game_assumption" },
+    "batteryRateKwh": { "v": 0, "source": "game_assumption" },
+    "aggregation": "stack",
+    "maxInstances": { "v": 1, "source": "game_assumption" },
+    "unlockXp": { "v": 20, "source": "game_assumption" },
+    "buildCost": {
+      "money": { "v": 500, "source": "game_assumption" },
+      "regolith": { "v": 30, "source": "game_assumption" },
+      "spareParts": { "v": 1, "source": "game_assumption" }
+    },
+    "buildHours": { "v": 2, "source": "game_assumption" },
+    "upgrades": [],
+    "special": "rover_charger"
+  },
+  {
+    "typeId": "water_recovery",
+    "name": "Water Recycler",
+    "kidDescription": "Cleans the crew's used water so it can be drunk again or split into oxygen. It stops if the clean tank is full.",
+    "priority": { "v": 25, "source": "game_assumption" },
+    "essential": true,
+    "passive": false,
+    "powerDrawKwh": { "v": 1.2, "source": "game_assumption" },
+    "inputs": [
+      { "resource": "wasteWater", "amount": { "v": 0.8, "source": "game_assumption", "note": "Processing rate, not a NASA constant." } }
+    ],
+    "outputs": [
+      { "resource": "cleanWater", "amount": { "v": 0.6, "source": "nasa", "note": "75% recovery, in line with the ISS water-recovery assembly rate (NASA)." } }
+    ],
+    "requires": ["power_bus"],
+    "requiresAny": [],
+    "provides": ["water_loop"],
+    "allowedStates": ["ON", "OFF", "PROCESSING", "IDLE", "DAMAGED", "REPAIRING", "UNDER_CONSTRUCTION", "DESTROYED"],
+    "capacityGrants": [],
+    "volumeM3": { "v": 6, "source": "game_assumption" },
+    "heatRemovalKwh": { "v": 0, "source": "game_assumption" },
+    "solarKwhPerFullSunHour": { "v": 0, "source": "game_assumption" },
+    "batteryCapacityKwh": { "v": 0, "source": "game_assumption" },
+    "batteryRateKwh": { "v": 0, "source": "game_assumption" },
+    "aggregation": "stack",
+    "maxInstances": { "v": 2, "source": "game_assumption" },
+    "unlockXp": { "v": 0, "source": "game_assumption" },
+    "buildCost": {
+      "money": { "v": 1000, "source": "game_assumption" },
+      "regolith": { "v": 90, "source": "game_assumption" },
+      "spareParts": { "v": 2, "source": "game_assumption" }
+    },
+    "buildHours": { "v": 5, "source": "game_assumption" },
+    "upgrades": [
+      { "level": { "v": 2, "source": "game_assumption" }, "costMoney": { "v": 700, "source": "game_assumption" }, "costParts": { "v": 1, "source": "game_assumption" }, "hours": { "v": 3, "source": "game_assumption" } }
+    ],
+    "special": "processor",
+    "blocksWhenFull": "cleanWater"
+  },
+  {
+    "typeId": "oxygen_generator",
+    "name": "Oxygen Generator",
+    "kidDescription": "Zaps clean water into breathing oxygen and hydrogen. It stops when its hydrogen tank is full - that is your hint to build the Sabatier reactor.",
+    "priority": { "v": 20, "source": "game_assumption" },
+    "essential": true,
+    "passive": false,
+    "powerDrawKwh": { "v": 2, "source": "game_assumption" },
+    "inputs": [
+      { "resource": "cleanWater", "amount": { "v": 0.2, "source": "nasa", "note": "Electrolysis: 18 g water gives 16 g oxygen plus 2 g hydrogen." } }
+    ],
+    "outputs": [
+      { "resource": "cabinO2", "amount": { "v": 0.178, "source": "nasa" } },
+      { "resource": "hydrogen", "amount": { "v": 0.022, "source": "nasa" } }
+    ],
+    "requires": ["cabin", "power_bus"],
+    "requiresAny": [],
+    "provides": ["oxygen_loop"],
+    "allowedStates": ["ON", "OFF", "PROCESSING", "IDLE", "CYCLING", "DAMAGED", "REPAIRING", "UNDER_CONSTRUCTION", "DESTROYED"],
+    "capacityGrants": [
+      { "resource": "hydrogen", "amount": { "v": 6, "source": "game_assumption" } }
+    ],
+    "volumeM3": { "v": 6, "source": "game_assumption" },
+    "heatRemovalKwh": { "v": 0, "source": "game_assumption" },
+    "solarKwhPerFullSunHour": { "v": 0, "source": "game_assumption" },
+    "batteryCapacityKwh": { "v": 0, "source": "game_assumption" },
+    "batteryRateKwh": { "v": 0, "source": "game_assumption" },
+    "aggregation": "stack",
+    "maxInstances": { "v": 2, "source": "game_assumption" },
+    "unlockXp": { "v": 0, "source": "game_assumption" },
+    "buildCost": {
+      "money": { "v": 1100, "source": "game_assumption" },
+      "regolith": { "v": 90, "source": "game_assumption" },
+      "spareParts": { "v": 3, "source": "game_assumption" }
+    },
+    "buildHours": { "v": 5, "source": "game_assumption" },
+    "upgrades": [
+      { "level": { "v": 2, "source": "game_assumption" }, "costMoney": { "v": 800, "source": "game_assumption" }, "costParts": { "v": 1, "source": "game_assumption" }, "hours": { "v": 4, "source": "game_assumption" } }
+    ],
+    "special": "processor",
+    "blocksWhenFull": "hydrogen"
+  },
+  {
+    "typeId": "co2_removal",
+    "name": "CO2 Scrubber",
+    "kidDescription": "Sucks the crew's breathed-out CO2 out of the air and holds it in a tank. When the tank fills up the air turns stuffy.",
+    "priority": { "v": 20, "source": "game_assumption" },
+    "essential": true,
+    "passive": false,
+    "powerDrawKwh": { "v": 1, "source": "game_assumption" },
+    "inputs": [
+      { "resource": "cabinCO2", "amount": { "v": 0.2, "source": "game_assumption", "note": "Slightly above crew production so the band stays clean while the store has room." } }
+    ],
+    "outputs": [
+      { "resource": "capturedCO2", "amount": { "v": 0.2, "source": "game_assumption" } }
+    ],
+    "requires": ["cabin", "power_bus"],
+    "requiresAny": [],
+    "provides": ["co2_loop"],
+    "allowedStates": ["ON", "OFF", "PROCESSING", "IDLE", "CYCLING", "DAMAGED", "REPAIRING", "UNDER_CONSTRUCTION", "DESTROYED"],
+    "capacityGrants": [
+      { "resource": "capturedCO2", "amount": { "v": 25, "source": "game_assumption", "note": "Buffer tank holding about five days of crew CO2, so a short interruption does not back the scrubber up." } }
+    ],
+    "volumeM3": { "v": 5, "source": "game_assumption" },
+    "heatRemovalKwh": { "v": 0, "source": "game_assumption" },
+    "solarKwhPerFullSunHour": { "v": 0, "source": "game_assumption" },
+    "batteryCapacityKwh": { "v": 0, "source": "game_assumption" },
+    "batteryRateKwh": { "v": 0, "source": "game_assumption" },
+    "aggregation": "stack",
+    "maxInstances": { "v": 2, "source": "game_assumption" },
+    "unlockXp": { "v": 0, "source": "game_assumption" },
+    "buildCost": {
+      "money": { "v": 950, "source": "game_assumption" },
+      "regolith": { "v": 80, "source": "game_assumption" },
+      "spareParts": { "v": 2, "source": "game_assumption" }
+    },
+    "buildHours": { "v": 5, "source": "game_assumption" },
+    "upgrades": [
+      { "level": { "v": 2, "source": "game_assumption" }, "costMoney": { "v": 650, "source": "game_assumption" }, "costParts": { "v": 1, "source": "game_assumption" }, "hours": { "v": 3, "source": "game_assumption" } }
+    ],
+    "special": "processor",
+    "blocksWhenFull": "capturedCO2"
+  },
+  {
+    "typeId": "sabatier",
+    "name": "Sabatier Reactor",
+    "kidDescription": "Mixes the stored hydrogen with captured CO2 to make water again, plus methane the rover can burn.",
+    "priority": { "v": 70, "source": "game_assumption" },
+    "essential": false,
+    "passive": false,
+    "powerDrawKwh": { "v": 1.5, "source": "game_assumption" },
+    "inputs": [
+      { "resource": "capturedCO2", "amount": { "v": 0.22, "source": "nasa", "note": "Sabatier: CO2 + 4H2 -> CH4 + 2H2O. 44 g CO2 per mole." } },
+      { "resource": "hydrogen", "amount": { "v": 0.04, "source": "nasa", "note": "8 g hydrogen per mole of CO2." } }
+    ],
+    "outputs": [
+      { "resource": "methane", "amount": { "v": 0.08, "source": "nasa", "note": "16 g methane per mole." } },
+      { "resource": "cleanWater", "amount": { "v": 0.09, "source": "nasa", "note": "18 g water per mole." } }
+    ],
+    "requires": ["power_bus"],
+    "requiresAny": [],
+    "provides": ["water_loop"],
+    "allowedStates": ["ON", "OFF", "PROCESSING", "IDLE", "CYCLING", "DAMAGED", "REPAIRING", "UNDER_CONSTRUCTION", "DESTROYED"],
+    "capacityGrants": [
+      { "resource": "methane", "amount": { "v": 8, "source": "game_assumption" } }
+    ],
+    "volumeM3": { "v": 6, "source": "game_assumption" },
+    "heatRemovalKwh": { "v": 0, "source": "game_assumption" },
+    "solarKwhPerFullSunHour": { "v": 0, "source": "game_assumption" },
+    "batteryCapacityKwh": { "v": 0, "source": "game_assumption" },
+    "batteryRateKwh": { "v": 0, "source": "game_assumption" },
+    "aggregation": "stack",
+    "maxInstances": { "v": 1, "source": "game_assumption" },
+    "unlockXp": { "v": 40, "source": "game_assumption" },
+    "buildCost": {
+      "money": { "v": 1400, "source": "game_assumption" },
+      "regolith": { "v": 120, "source": "game_assumption" },
+      "spareParts": { "v": 3, "source": "game_assumption" }
+    },
+    "buildHours": { "v": 8, "source": "game_assumption" },
+    "upgrades": [
+      { "level": { "v": 2, "source": "game_assumption" }, "costMoney": { "v": 900, "source": "game_assumption" }, "costParts": { "v": 2, "source": "game_assumption" }, "hours": { "v": 4, "source": "game_assumption" } }
+    ],
+    "special": "processor",
+    "blocksWhenFull": "methane"
+  },
+  {
+    "typeId": "thermal_control",
+    "name": "Thermal Radiator",
+    "kidDescription": "Radiates the heat that machines and people make into space. Without it the cabin becomes an oven.",
+    "priority": { "v": 30, "source": "game_assumption" },
+    "essential": true,
+    "passive": false,
+    "powerDrawKwh": { "v": 1.5, "source": "game_assumption" },
+    "inputs": [],
+    "outputs": [],
+    "requires": ["cabin", "power_bus"],
+    "requiresAny": [],
+    "provides": ["thermal_loop"],
+    "allowedStates": ["ON", "OFF", "PROCESSING", "IDLE", "DEPLOYED", "STOWED", "DAMAGED", "REPAIRING", "UNDER_CONSTRUCTION", "DESTROYED"],
+    "capacityGrants": [],
+    "volumeM3": { "v": 3, "source": "game_assumption" },
+    "heatRemovalKwh": { "v": 14, "source": "game_assumption", "note": "Sized so one radiator can clear roughly the whole base's heat at full sun." },
+    "solarKwhPerFullSunHour": { "v": 0, "source": "game_assumption" },
+    "batteryCapacityKwh": { "v": 0, "source": "game_assumption" },
+    "batteryRateKwh": { "v": 0, "source": "game_assumption" },
+    "aggregation": "stack",
+    "maxInstances": { "v": 2, "source": "game_assumption" },
+    "unlockXp": { "v": 0, "source": "game_assumption" },
+    "buildCost": {
+      "money": { "v": 800, "source": "game_assumption" },
+      "regolith": { "v": 70, "source": "game_assumption" },
+      "spareParts": { "v": 2, "source": "game_assumption" }
+    },
+    "buildHours": { "v": 4, "source": "game_assumption" },
+    "upgrades": [
+      { "level": { "v": 2, "source": "game_assumption" }, "costMoney": { "v": 600, "source": "game_assumption" }, "costParts": { "v": 1, "source": "game_assumption" }, "hours": { "v": 3, "source": "game_assumption" } }
+    ],
+    "special": "radiator"
+  },
+  {
+    "typeId": "radiation_monitor",
+    "name": "Radiation Monitor",
+    "kidDescription": "Watches the Sun and the particles. With it, a storm warning arrives early; without it you only learn about the storm when it is on top of you.",
+    "priority": { "v": 40, "source": "game_assumption" },
+    "essential": false,
+    "passive": false,
+    "powerDrawKwh": { "v": 0.3, "source": "game_assumption" },
+    "inputs": [],
+    "outputs": [],
+    "requires": ["power_bus"],
+    "requiresAny": [],
+    "provides": ["warning"],
+    "allowedStates": ["ON", "OFF", "ACTIVE", "INACTIVE", "DAMAGED", "REPAIRING", "UNDER_CONSTRUCTION", "DESTROYED"],
+    "capacityGrants": [],
+    "volumeM3": { "v": 1, "source": "game_assumption" },
+    "heatRemovalKwh": { "v": 0, "source": "game_assumption" },
+    "solarKwhPerFullSunHour": { "v": 0, "source": "game_assumption" },
+    "batteryCapacityKwh": { "v": 0, "source": "game_assumption" },
+    "batteryRateKwh": { "v": 0, "source": "game_assumption" },
+    "aggregation": "stack",
+    "maxInstances": { "v": 1, "source": "game_assumption" },
+    "unlockXp": { "v": 0, "source": "game_assumption" },
+    "buildCost": {
+      "money": { "v": 400, "source": "game_assumption" },
+      "regolith": { "v": 20, "source": "game_assumption" },
+      "spareParts": { "v": 1, "source": "game_assumption" }
+    },
+    "buildHours": { "v": 2, "source": "game_assumption" },
+    "upgrades": [],
+    "special": "processor"
+  },
+  {
+    "typeId": "radiation_shelter",
+    "name": "Radiation Shelter",
+    "kidDescription": "A small room buried under regolith. Dirt stops solar particles, so the crew hides here when a storm comes.",
+    "priority": { "v": 15, "source": "game_assumption" },
+    "essential": false,
+    "passive": false,
+    "powerDrawKwh": { "v": 0.2, "source": "game_assumption" },
+    "inputs": [],
+    "outputs": [],
+    "requires": ["cabin"],
+    "requiresAny": [],
+    "provides": ["shelter"],
+    "allowedStates": ["ON", "OFF", "ACTIVE", "DAMAGED", "REPAIRING", "UNDER_CONSTRUCTION", "DESTROYED"],
+    "capacityGrants": [],
+    "volumeM3": { "v": 8, "source": "game_assumption" },
+    "heatRemovalKwh": { "v": 0, "source": "game_assumption" },
+    "solarKwhPerFullSunHour": { "v": 0, "source": "game_assumption" },
+    "batteryCapacityKwh": { "v": 0, "source": "game_assumption" },
+    "batteryRateKwh": { "v": 0, "source": "game_assumption" },
+    "aggregation": "stack",
+    "maxInstances": { "v": 1, "source": "game_assumption" },
+    "unlockXp": { "v": 0, "source": "game_assumption" },
+    "buildCost": {
+      "money": { "v": 1200, "source": "game_assumption" },
+      "regolith": { "v": 150, "source": "game_assumption", "note": "About a metre of dirt over a small room, scaled to the shelter footprint." },
+      "spareParts": { "v": 2, "source": "game_assumption" }
+    },
+    "buildHours": { "v": 8, "source": "game_assumption" },
+    "upgrades": [
+      { "level": { "v": 2, "source": "game_assumption" }, "costMoney": { "v": 800, "source": "game_assumption" }, "costParts": { "v": 1, "source": "game_assumption" }, "hours": { "v": 4, "source": "game_assumption" } }
+    ],
+    "special": "passive"
+  },
+  {
+    "typeId": "cargo_module",
+    "name": "Cargo Module",
+    "kidDescription": "Extra lockers for water, food and waste. More storage means a system can keep working while you fix something else.",
+    "priority": { "v": 95, "source": "game_assumption" },
+    "essential": false,
+    "passive": true,
+    "powerDrawKwh": { "v": 0, "source": "game_assumption" },
+    "inputs": [],
+    "outputs": [],
+    "requires": [],
+    "requiresAny": [],
+    "provides": ["storage"],
+    "allowedStates": ["ON", "OFF", "DAMAGED", "REPAIRING", "UNDER_CONSTRUCTION", "DESTROYED"],
+    "capacityGrants": [
+      { "resource": "cleanWater", "amount": { "v": 200, "source": "game_assumption" } },
+      { "resource": "wasteWater", "amount": { "v": 120, "source": "game_assumption" } },
+      { "resource": "food", "amount": { "v": 100, "source": "game_assumption" } },
+      { "resource": "nutrients", "amount": { "v": 20, "source": "game_assumption" } },
+      { "resource": "solidWaste", "amount": { "v": 80, "source": "game_assumption" } },
+      { "resource": "regolith", "amount": { "v": 200, "source": "game_assumption" } }
+    ],
+    "volumeM3": { "v": 10, "source": "game_assumption" },
+    "heatRemovalKwh": { "v": 0, "source": "game_assumption" },
+    "solarKwhPerFullSunHour": { "v": 0, "source": "game_assumption" },
+    "batteryCapacityKwh": { "v": 0, "source": "game_assumption" },
+    "batteryRateKwh": { "v": 0, "source": "game_assumption" },
+    "aggregation": "stack",
+    "maxInstances": { "v": 3, "source": "game_assumption" },
+    "unlockXp": { "v": 0, "source": "game_assumption" },
+    "buildCost": {
+      "money": { "v": 500, "source": "game_assumption" },
+      "regolith": { "v": 60, "source": "game_assumption" },
+      "spareParts": { "v": 1, "source": "game_assumption" }
+    },
+    "buildHours": { "v": 3, "source": "game_assumption" },
+    "upgrades": [],
+    "special": "storage"
+  },
+  {
+    "typeId": "communications",
+    "name": "Communications Dish",
+    "kidDescription": "Talks to Mission Control on Earth. The signal takes about 1.3 seconds each way, so advice is always a little late - and if the dish is off, warnings arrive even later.",
+    "priority": { "v": 45, "source": "game_assumption" },
+    "essential": false,
+    "passive": false,
+    "powerDrawKwh": { "v": 0.8, "source": "game_assumption" },
+    "inputs": [],
+    "outputs": [],
+    "requires": ["power_bus"],
+    "requiresAny": [],
+    "provides": ["comms"],
+    "allowedStates": ["ON", "OFF", "ACTIVE", "INACTIVE", "DAMAGED", "REPAIRING", "UNDER_CONSTRUCTION", "DESTROYED"],
+    "capacityGrants": [],
+    "volumeM3": { "v": 2, "source": "game_assumption" },
+    "heatRemovalKwh": { "v": 0, "source": "game_assumption" },
+    "solarKwhPerFullSunHour": { "v": 0, "source": "game_assumption" },
+    "batteryCapacityKwh": { "v": 0, "source": "game_assumption" },
+    "batteryRateKwh": { "v": 0, "source": "game_assumption" },
+    "aggregation": "stack",
+    "maxInstances": { "v": 1, "source": "game_assumption" },
+    "unlockXp": { "v": 0, "source": "game_assumption" },
+    "buildCost": {
+      "money": { "v": 700, "source": "game_assumption" },
+      "regolith": { "v": 50, "source": "game_assumption" },
+      "spareParts": { "v": 1, "source": "game_assumption" }
+    },
+    "buildHours": { "v": 3, "source": "game_assumption" },
+    "upgrades": [],
+    "special": "processor"
+  },
+  {
+    "typeId": "rover",
+    "name": "Rover",
+    "kidDescription": "Drives out to collect regolith and do science. A trip spends power and takes crew away from the base, so it is a real choice.",
+    "priority": { "v": 80, "source": "game_assumption" },
+    "essential": false,
+    "passive": false,
+    "powerDrawKwh": { "v": 1.5, "source": "game_assumption", "note": "Only drawn while MOVING." },
+    "inputs": [],
+    "outputs": [
+      { "resource": "regolith", "amount": { "v": 40, "source": "game_assumption", "note": "One scoop per driving hour, capped by site stockpile capacity." } },
+      { "resource": "spareParts", "amount": { "v": 1, "source": "game_assumption", "note": "A crate of consumables and hardware the rover hauls back from the lander, which is how repairs keep being possible." } }
+    ],
+    "requires": ["eva", "rover_power"],
+    "requiresAny": [],
+    "provides": [],
+    "allowedStates": ["PARKED", "MOVING", "CHARGING", "OFF", "DAMAGED", "REPAIRING", "UNDER_CONSTRUCTION", "DESTROYED"],
+    "capacityGrants": [],
+    "volumeM3": { "v": 0, "source": "game_assumption" },
+    "heatRemovalKwh": { "v": 0, "source": "game_assumption" },
+    "solarKwhPerFullSunHour": { "v": 0, "source": "game_assumption" },
+    "batteryCapacityKwh": { "v": 0, "source": "game_assumption" },
+    "batteryRateKwh": { "v": 0, "source": "game_assumption" },
+    "aggregation": "stack",
+    "maxInstances": { "v": 2, "source": "game_assumption" },
+    "unlockXp": { "v": 30, "source": "game_assumption" },
+    "buildCost": {
+      "money": { "v": 1500, "source": "game_assumption" },
+      "regolith": { "v": 60, "source": "game_assumption" },
+      "spareParts": { "v": 4, "source": "game_assumption" }
+    },
+    "buildHours": { "v": 8, "source": "game_assumption" },
+    "upgrades": [
+      { "level": { "v": 2, "source": "game_assumption" }, "costMoney": { "v": 900, "source": "game_assumption" }, "costParts": { "v": 2, "source": "game_assumption" }, "hours": { "v": 4, "source": "game_assumption" } }
+    ],
+    "special": "rover"
+  },
+  {
+    "typeId": "spare_parts_storage",
+    "name": "Parts Locker",
+    "kidDescription": "Keeps the spare parts that repairs need. Run out of parts and a broken machine stays broken.",
+    "priority": { "v": 95, "source": "game_assumption" },
+    "essential": false,
+    "passive": true,
+    "powerDrawKwh": { "v": 0, "source": "game_assumption" },
+    "inputs": [],
+    "outputs": [],
+    "requires": [],
+    "requiresAny": [],
+    "provides": ["parts"],
+    "allowedStates": ["ON", "OFF", "DAMAGED", "REPAIRING", "UNDER_CONSTRUCTION", "DESTROYED"],
+    "capacityGrants": [
+      { "resource": "spareParts", "amount": { "v": 30, "source": "game_assumption" } }
+    ],
+    "volumeM3": { "v": 4, "source": "game_assumption" },
+    "heatRemovalKwh": { "v": 0, "source": "game_assumption" },
+    "solarKwhPerFullSunHour": { "v": 0, "source": "game_assumption" },
+    "batteryCapacityKwh": { "v": 0, "source": "game_assumption" },
+    "batteryRateKwh": { "v": 0, "source": "game_assumption" },
+    "aggregation": "stack",
+    "maxInstances": { "v": 2, "source": "game_assumption" },
+    "unlockXp": { "v": 0, "source": "game_assumption" },
+    "buildCost": {
+      "money": { "v": 450, "source": "game_assumption" },
+      "regolith": { "v": 40, "source": "game_assumption" },
+      "spareParts": { "v": 0, "source": "game_assumption" }
+    },
+    "buildHours": { "v": 3, "source": "game_assumption" },
+    "upgrades": [],
+    "special": "storage"
+  }
+]

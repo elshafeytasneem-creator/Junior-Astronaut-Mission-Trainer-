@@ -1,0 +1,211 @@
+{
+  "meta": {
+    "citations": ["N01", "N02", "N03", "N04", "N05", "N06", "N07", "N08"]
+  },
+
+  "time": {
+    "stepsPerDay": { "v": 24, "source": "game_assumption", "note": "One simulated hour per step." },
+    "baseMsPerSimHour": { "v": 1000, "source": "game_assumption", "note": "At speed 1 one sim hour takes one real second." },
+    "speeds": [
+      { "v": 0.5, "source": "game_assumption" },
+      { "v": 1, "source": "game_assumption" },
+      { "v": 2, "source": "game_assumption" },
+      { "v": 4, "source": "game_assumption" }
+    ]
+  },
+
+  "crew": {
+    "referenceSize": { "v": 4, "source": "game_assumption", "note": "Every habitat flow number is written for this many people." },
+    "defaultSize": { "v": 4, "source": "game_assumption" },
+    "names": ["Amira", "Kwame", "Sofia", "Kenji"],
+    "ratesAtReference": {
+      "foodKg": { "v": 0.125, "source": "nasa", "note": "0.75 kg per person per day x 4 / 24 h." },
+      "cleanWaterL": { "v": 0.6, "source": "nasa", "note": "3.6 L per person per day x 4 / 24 h." },
+      "cabinO2Kg": { "v": 0.14, "source": "nasa", "note": "0.84 kg O2 per person per day x 4 / 24 h." },
+      "cabinCo2Kg": { "v": 0.18, "source": "nasa", "note": "About 1.08 kg CO2 per person per day x 4 / 24 h." },
+      "wasteWaterL": { "v": 0.25, "source": "game_assumption", "note": "1.5 L greywater per person per day." },
+      "solidWasteKg": { "v": 0.1, "source": "game_assumption", "note": "0.6 kg per person per day." },
+      "heatKwh": { "v": 0.4, "source": "nasa", "note": "A resting human releases about 100 W, so 0.1 kWh per hour each." }
+    },
+    "impairedAtOrBelow": { "v": 60, "source": "game_assumption", "note": "Health percent where a crew member slows down." },
+    "severeAtOrBelow": { "v": 30, "source": "game_assumption" },
+    "criticalDrainHours": { "v": 8, "source": "game_assumption", "note": "Hours from full health to empty inside the critical band." },
+    "warningDrainHours": { "v": 48, "source": "game_assumption", "note": "Hours to empty inside the warning band." },
+    "starvationDrainHours": { "v": 12, "source": "game_assumption", "note": "No food or no water." },
+    "recoveryPerHour": { "v": 3, "source": "game_assumption", "note": "Health regained per hour when everything is nominal." },
+        "exposureDrainPerHour": { "v": 8, "source": "game_assumption", "note": "Health points lost per hour outside during a radiation event with no shelter built. Chosen so ignoring a storm injures the crew rather than killing them outright." },
+        "shelterInPlaceDrainPerHour": { "v": 4, "source": "game_assumption", "note": "Same storm, but the shelter exists and the crew are not using it." },
+        "shelteredActivityFactor": { "v": 0.5, "source": "game_assumption", "note": "Sheltered crew are safe but half as productive: no repairs, no EVA." },
+    "optimalXpPerHour": { "v": 1.2, "source": "game_assumption" },
+    "survivalTiers": [
+      {
+        "id": "nominal",
+        "maxCo2MmHg": { "v": 3, "source": "nasa", "note": "NASA-STD-3001 400 ppm CO2 ceiling." },
+        "minTempC": { "v": 18, "source": "nasa" },
+        "maxTempC": { "v": 27, "source": "nasa" },
+        "minO2MmHg": { "v": 145, "source": "nasa" },
+        "activityMultiplier": { "v": 1, "source": "game_assumption" }
+      },
+      {
+        "id": "warning",
+        "maxCo2MmHg": { "v": 7.6, "source": "nasa", "note": "Long-duration ceiling used by NASA for symptom-free operation." },
+        "minTempC": { "v": 10, "source": "game_assumption" },
+        "maxTempC": { "v": 35, "source": "game_assumption" },
+        "minO2MmHg": { "v": 120, "source": "game_assumption" },
+        "activityMultiplier": { "v": 0.75, "source": "game_assumption" }
+      },
+      {
+        "id": "critical",
+        "maxCo2MmHg": { "v": 15, "source": "game_assumption", "note": "Above this people get headaches fast; chosen for play." },
+        "minTempC": { "v": -10, "source": "game_assumption" },
+        "maxTempC": { "v": 45, "source": "game_assumption" },
+        "minO2MmHg": { "v": 90, "source": "game_assumption" },
+        "activityMultiplier": { "v": 0.45, "source": "game_assumption" }
+      }
+    ]
+  },
+
+  "atmosphere": {
+    "initialTemperatureC": { "v": 22, "source": "nasa", "note": "NASA-STD-3001 nominal cabin temperature." },
+    "initialO2MmHg": { "v": 150, "source": "nasa", "note": "Sea-level-equivalent ppO2." },
+    "initialCo2MmHg": { "v": 2, "source": "nasa" },
+    "o2VentAboveMmHg": { "v": 155, "source": "game_assumption", "note": "Generators are setpoint-controlled; anything above this is vented overboard." },
+    "comfortTempMinC": { "v": 18, "source": "nasa" },
+    "comfortTempMaxC": { "v": 27, "source": "nasa" },
+    "bands": {
+      "o2SafeMin": { "v": 145, "source": "nasa" },
+      "o2SafeMax": { "v": 155, "source": "nasa" },
+      "o2WarningMin": { "v": 120, "source": "game_assumption" },
+      "co2SafeMax": { "v": 3, "source": "nasa" },
+      "co2WarningMax": { "v": 7.6, "source": "nasa" },
+      "tempSafeMin": { "v": 18, "source": "nasa" },
+      "tempSafeMax": { "v": 27, "source": "nasa" },
+      "tempWarningLowMin": { "v": 10, "source": "game_assumption" },
+      "tempWarningHighMax": { "v": 35, "source": "game_assumption" },
+      "tempCriticalLow": { "v": -20, "source": "game_assumption" },
+      "tempCriticalHigh": { "v": 45, "source": "game_assumption" }
+    }
+  },
+
+  "gas": {
+    "rJoules": { "v": 8.314, "source": "nasa", "note": "Universal gas constant." },
+    "paPerMmHg": { "v": 133.322, "source": "nasa" },
+    "o2MolarMassKg": { "v": 0.032, "source": "nasa" },
+    "co2MolarMassKg": { "v": 0.044, "source": "nasa" }
+  },
+
+  "thermal": {
+    "massKwhPerC": { "v": 40, "source": "game_assumption", "note": "Effective thermal mass of the pressurized volume: kWh needed to move it 1 C." },
+    "electricalHeatFraction": { "v": 0.9, "source": "game_assumption", "note": "Almost all electrical work ends up as heat inside the hull." },
+    "ambientKwhPerHourPerC": { "v": 0.02, "source": "game_assumption", "note": "Hull heat leak per degree of difference. Multi-layer insulation makes this small, which is why radiators - not conduction - do the work." },
+    "dayExteriorC": { "v": 120, "source": "nasa", "note": "Diviner lunar daytime surface temperature (equatorial, sunlit)." },
+    "nightExteriorC": { "v": -170, "source": "nasa", "note": "Diviner lunar night surface temperature." },
+    "thermostatTargetC": { "v": 22, "source": "nasa" },
+    "controlBandC": { "v": 4, "source": "game_assumption", "note": "Radiator output ramps from zero to full across this band around the target, like a real closed-loop TCS." }
+  },
+
+  "power": {
+    "requirePowerDistribution": true,
+    "shortageModeDefault": "priority",
+    "highlightGuidanceDefault": true
+  },
+    "economy": {
+      "roverCycleCredits": { "v": 250, "source": "game_assumption", "note": "What the agency pays for one sampled site, scaled for play." },
+      "evaCredits": { "v": 60, "source": "game_assumption", "note": "Paid for a spacewalk that cleans the panels and returns samples." },
+      "uplinkCreditsPerSol": { "v": 380, "source": "game_assumption", "note": "A sol of science beamed home. Needs a working comms dish, so the money follows the infrastructure." },
+      "resupplyPartsPerSol": { "v": 1, "source": "game_assumption", "note": "Spare parts the supply lander brings with the data relay, so repairs never dead-end." }
+  },
+    "damageMultipliers": {
+    "none": { "v": 1, "source": "game_assumption" },
+    "minor": { "v": 0.85, "source": "game_assumption" },
+    "moderate": { "v": 0.6, "source": "game_assumption" },
+    "critical": { "v": 0.3, "source": "game_assumption" },
+    "destroyed": { "v": 0, "source": "game_assumption" }
+  },
+
+  "repair": {
+    "minor": { "hours": { "v": 1, "source": "game_assumption" }, "parts": { "v": 0, "source": "game_assumption" }, "directPlayer": true },
+    "moderate": { "hours": { "v": 4, "source": "game_assumption" }, "parts": { "v": 1, "source": "game_assumption" }, "directPlayer": true },
+    "critical": { "hours": { "v": 10, "source": "game_assumption" }, "parts": { "v": 3, "source": "game_assumption" }, "directPlayer": false }
+  },
+
+  "construction": {
+    "demolishRefundFraction": { "v": 0.5, "source": "game_assumption" }
+  },
+
+  "level": {
+    "bonusPerLevel": { "v": 0.25, "source": "game_assumption", "note": "+25% output or capacity per upgrade level above 1." }
+  },
+
+  "lunar": {
+    "daylightHours": { "v": 16, "source": "game_assumption", "note": "Compressed for play. A real lunar day is about 354 hours of sunlight (NASA LRO illumination)." },
+    "nightHours": { "v": 8, "source": "game_assumption", "note": "Real lunar night is about 354 hours; the game uses one 24-hour light/heat cycle." },
+    "cycleEnabled": true
+  },
+
+  "environment": {
+    "unmonitoredLeadScale": { "v": 0.25, "source": "game_assumption", "note": "No monitor or no dish means you only get a quarter of the warning lead." },
+    "defaultStormHours": { "v": 6, "source": "nasa", "note": "Typical short SEP/FLR storm length in the DONKI archive." }
+  },
+
+  "xp": {
+    "starting": { "v": 0, "source": "game_assumption" }
+  },
+
+  "starterInstances": [
+    { "typeId": "pressurized_habitat", "status": "ON", "slotId": "pad-01" },
+    { "typeId": "airlock", "status": "ON", "slotId": "pad-02" },
+    { "typeId": "power_distribution", "status": "ON", "slotId": "pad-03" },
+    { "typeId": "solar_array", "status": "ON", "slotId": "pad-04" },
+    { "typeId": "battery_bank", "status": "ON", "slotId": "pad-05" },
+    { "typeId": "water_recovery", "status": "ON", "slotId": "pad-06" },
+    { "typeId": "co2_removal", "status": "ON", "slotId": "pad-07" },
+    { "typeId": "greenhouse", "status": "ON", "slotId": "pad-08" },
+    { "typeId": "oxygen_generator", "status": "OFF", "slotId": "pad-09" }
+  ],
+
+  "powerUps": [
+    {
+      "typeId": "suntracer",
+      "name": "Sun Trimmer",
+      "kidDescription": "Tilts the panels straight at the Sun for a few hours, so they make half again as much power.",
+      "durationHours": { "v": 6, "source": "game_assumption" },
+      "cooldownHours": { "v": 24, "source": "game_assumption" },
+      "maxCharges": { "v": 2, "source": "game_assumption" },
+      "initialCharges": { "v": 1, "source": "game_assumption" },
+      "solarMultiplier": { "v": 1.5, "source": "game_assumption" },
+      "powerDrawMultiplier": { "v": 1, "source": "game_assumption" },
+      "processorMultiplier": { "v": 1, "source": "game_assumption" },
+      "radiatorMultiplier": { "v": 1, "source": "game_assumption" },
+      "foodConsumptionMultiplier": { "v": 1, "source": "game_assumption" }
+    },
+    {
+      "typeId": "eco_mode",
+      "name": "Eco Mode",
+      "kidDescription": "Runs every machine a bit quieter. Nothing slows down, but everything draws less.",
+      "durationHours": { "v": 8, "source": "game_assumption" },
+      "cooldownHours": { "v": 30, "source": "game_assumption" },
+      "maxCharges": { "v": 2, "source": "game_assumption" },
+      "initialCharges": { "v": 1, "source": "game_assumption" },
+      "solarMultiplier": { "v": 1, "source": "game_assumption" },
+      "powerDrawMultiplier": { "v": 0.7, "source": "game_assumption" },
+      "processorMultiplier": { "v": 1, "source": "game_assumption" },
+      "radiatorMultiplier": { "v": 1, "source": "game_assumption" },
+      "foodConsumptionMultiplier": { "v": 1, "source": "game_assumption" }
+    },
+    {
+      "typeId": "grow_burst",
+      "name": "Grow Burst",
+      "kidDescription": "Extra light and a CO2 boost in the greenhouse: plants work faster and the crew eats a little less.",
+      "durationHours": { "v": 6, "source": "game_assumption" },
+      "cooldownHours": { "v": 30, "source": "game_assumption" },
+      "maxCharges": { "v": 2, "source": "game_assumption" },
+      "initialCharges": { "v": 1, "source": "game_assumption" },
+      "solarMultiplier": { "v": 1, "source": "game_assumption" },
+      "powerDrawMultiplier": { "v": 1, "source": "game_assumption" },
+      "processorMultiplier": { "v": 1.4, "source": "game_assumption" },
+      "radiatorMultiplier": { "v": 1, "source": "game_assumption" },
+      "foodConsumptionMultiplier": { "v": 0.8, "source": "game_assumption" }
+    }
+  ]
+}

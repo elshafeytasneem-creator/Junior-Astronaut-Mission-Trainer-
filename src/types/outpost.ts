@@ -359,6 +359,9 @@ export interface OutpostConfig {
     warningDrainHours: number;
     starvationDrainHours: number;
     recoveryPerHour: number;
+    exposureDrainPerHour: number;
+    shelterInPlaceDrainPerHour: number;
+    shelteredActivityFactor: number;
     optimalXpPerHour: number;
     survivalTiers: SurvivalTier[];
   };
@@ -396,11 +399,22 @@ export interface OutpostConfig {
     dayExteriorC: number;
     nightExteriorC: number;
     thermostatTargetC: number;
+    controlBandC: number;
   };
   power: {
     requirePowerDistribution: boolean;
     shortageModeDefault: PowerShortageMode;
     highlightGuidanceDefault: boolean;
+  };
+  economy: {
+    /** Credits the agency pays for one completed rover science trip. */
+    roverCycleCredits: number;
+    /** Credits for an EVA (panel cleaning, sample pickup). */
+    evaCredits: number;
+    /** Credits paid each sol when a working comms dish beams the science home. */
+    uplinkCreditsPerSol: number;
+    /** Spare parts the supply lander delivers with the data relay, so repairs never dead-end. */
+    resupplyPartsPerSol: number;
   };
   damageMultipliers: Record<DamageLevel, number>;
   repair: Record<"minor" | "moderate" | "critical", RepairRule>;

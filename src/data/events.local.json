@@ -1,0 +1,102 @@
+{
+  "events": [
+    {
+      "id": "ev_sep_01",
+      "type": "solar_particle_event",
+      "startHour": { "v": 14, "source": "nasa", "note": "Archived DONKI solar-particle-event pattern; the shell re-seeds the exact start each run." },
+      "durationHours": { "v": 6, "source": "nasa", "note": "Short SEP event length in the DONKI archive." },
+      "warningLeadHours": { "v": 8, "source": "game_assumption", "note": "Game lead time: a real SEP warning is usually minutes, which is not playable." },
+      "effects": {
+        "radiation": true,
+        "buildingEfficiency": { "v": 0.9, "source": "game_assumption", "note": "Charged particles cause single-event upsets in electronics." }
+      }
+    },
+    {
+      "id": "ev_dust_02",
+      "type": "dust_storm",
+      "startHour": { "v": 22, "source": "game_assumption", "note": "Lunar dust is lofted by electrostatic levitation and micrometeoroid churn (NASA LDSE findings)." },
+      "durationHours": { "v": 8, "source": "game_assumption" },
+      "warningLeadHours": { "v": 4, "source": "game_assumption" },
+      "effects": {
+        "sunlightMultiplier": { "v": 0.65, "source": "game_assumption", "note": "Dust on the panel glass; Apollo 12/14/16 surveyors reported coatings darkening the surfaces." }
+      }
+    },
+    {
+      "id": "ev_flr_x32",
+      "type": "solar_flare",
+      "startHour": { "v": 30, "source": "nasa", "note": "Named after the X3.2 class flare of 2026-01-17 in the DONKI flare catalogue shape." },
+      "durationHours": { "v": 3, "source": "nasa" },
+      "warningLeadHours": { "v": 6, "source": "game_assumption" },
+      "effects": {
+        "radiation": true,
+        "buildingEfficiency": { "v": 0.75, "source": "game_assumption", "note": "Radio blackout degrades the communications and monitor systems." }
+      }
+    },
+    {
+      "id": "ev_cme_04",
+      "type": "coronal_mass_ejection",
+      "startHour": { "v": 44, "source": "nasa", "note": "DONKI CME archive: Earth-directed arrivals follow the flare by 15-48 h; compressed for play." },
+      "durationHours": { "v": 10, "source": "nasa" },
+      "warningLeadHours": { "v": 12, "source": "game_assumption" },
+      "effects": {
+        "radiation": true,
+        "buildingEfficiency": { "v": 0.85, "source": "game_assumption" },
+        "damage": { "typeId": "solar_array", "level": "moderate" }
+      }
+    },
+    {
+      "id": "ev_meteoroid_05",
+      "type": "micrometeoroid_strike",
+      "startHour": { "v": 55, "source": "nasa", "note": "Meteoroid flux environment for crewed lunar surface operations (NASA MPRB model)." },
+      "durationHours": { "v": 1, "source": "game_assumption" },
+      "warningLeadHours": { "v": 0, "source": "nasa", "note": "There is no useful warning for a strike - this is a genuine no-safe-choice moment." },
+      "effects": {
+        "damage": { "typeId": "thermal_control", "level": "minor" },
+        "resourceDeltas": { "spareParts": { "v": -1, "source": "game_assumption", "note": "One part consumed by the emergency patch." } }
+      }
+    },
+    {
+      "id": "ev_sep_06",
+      "type": "solar_particle_event",
+      "startHour": { "v": 66, "source": "nasa" },
+      "durationHours": { "v": 8, "source": "nasa" },
+      "warningLeadHours": { "v": 10, "source": "game_assumption" },
+      "effects": {
+        "radiation": true,
+        "buildingEfficiency": { "v": 0.9, "source": "game_assumption" }
+      }
+    },
+    {
+      "id": "ev_cme_07",
+      "type": "coronal_mass_ejection",
+      "startHour": { "v": 96, "source": "nasa" },
+      "durationHours": { "v": 12, "source": "nasa" },
+      "warningLeadHours": { "v": 14, "source": "game_assumption" },
+      "effects": {
+        "radiation": true,
+        "damage": { "typeId": "rover", "level": "critical" }
+      }
+    },
+    {
+      "id": "ev_dust_08",
+      "type": "dust_storm",
+      "startHour": { "v": 110, "source": "game_assumption" },
+      "durationHours": { "v": 10, "source": "game_assumption" },
+      "warningLeadHours": { "v": 4, "source": "game_assumption" },
+      "effects": {
+        "sunlightMultiplier": { "v": 0.55, "source": "game_assumption" }
+      }
+    },
+    {
+      "id": "ev_sep_09",
+      "type": "solar_particle_event",
+      "startHour": { "v": 130, "source": "nasa" },
+      "durationHours": { "v": 6, "source": "nasa" },
+      "warningLeadHours": { "v": 9, "source": "game_assumption" },
+      "effects": {
+        "radiation": true,
+        "resourceDeltas": { "solidWaste": { "v": 2, "source": "game_assumption", "note": "Spoiled food packs when the greenhouse has to shut down." } }
+      }
+    }
+  ]
+}
